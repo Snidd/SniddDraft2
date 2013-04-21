@@ -1,0 +1,22 @@
+<template name="drafts">
+<ul class="thumbnails">
+	{{#each mydrafts}}
+  <li class="span4">
+    <div class="thumbnail {{statusclass this}}">
+    	{{#if deletable this}}
+    		<button type='button' class='close deletedraft'>&times;</button>
+    	{{/if}}
+      <div class="caption draft">
+        <h3>{{name}}</h3>
+        <p>
+        	{{#each members}}
+        		<span class="label">{{email}}</span>
+        	{{/each}}
+        <p>
+        <a href="#" class="btn btn-primary viewdraft">View draft</a></p>
+      </div>
+    </div>
+  </li>
+  {{/each}}
+</ul>
+</template>

@@ -1,0 +1,39 @@
+<template name="draft">
+	{{#if started}}
+		{{> draftInProgress}}
+	{{else}}
+		{{> startDraft}}
+	{{/if}}
+</template>
+
+<template name="draftInProgress">
+	Drafting in progress...
+</template>
+
+<template name="startDraft">
+	<form id="invitePeopleForm">
+  <fieldset>
+    <legend>Add people</legend>
+    <p id="draftMembers">
+    	{{#each draftMembers}}
+	    	<span class="label label-info email">{{email}}</span>
+    	{{/each}}
+    </p>
+    <div class="alert hide" id="emailnotfound">
+  		<button type="button" class="close" data-dismiss="alert">&times;</button>
+  		<strong>Not found!</strong> The email you entered could not be found in the system.
+		</div>
+		<div id="addEmailGroup" class="control-group">
+		  <label class="control-label" for="addEmailInput">Email</label>
+		  <div class="controls input-append">
+		    <input type="text" class="span2" id="addEmailInput" placeholder="Write an email address">
+		    <button class="btn inviteEmail" type="button">+</button>
+		    <span class="help-inline hide">This email doesnt exist in the system.</span>
+		  </div>
+		</div>
+    <span class="help-block">Enter a users email and click the + sign to add him to your draft.</span>
+
+    <button type="submit" {{startable}} class="btn btn-primary startdraft">Start draft</button>
+  </fieldset>
+</form>
+</template>

@@ -1,0 +1,22 @@
+<template name="createdraft">
+	<form>
+	  <fieldset>
+	    <legend>Create draft</legend>
+	    <label>Draft name</label>
+	    <input id="draftname" type="text" placeholder="Type something…">
+	    <span class="help-block">Decide the name for your draft here.</span>
+	    <label>Format</label>
+	    <select id="formattype">
+			  <option>Vintage</option>
+			  <option>Legacy</option>
+			  <option>Modern</option>
+			  <option>Standard</option>
+			</select>
+	    <span class="help-block">The format decides which cards people are allowed to pick from.</span>
+	    <label class="checkbox">
+	    <input id="ispublic" type="checkbox"> Show the draft to everyone?
+	    </label>
+	    <button type="submit" class="btn create">Create draft</button>
+	  </fieldset>
+	</form>
+</template>

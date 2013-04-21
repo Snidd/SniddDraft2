@@ -1,0 +1,75 @@
+<head>
+  <title>SniddDraft</title>
+</head>
+
+<body>
+  {{> index}}
+</body>
+
+<template name="signin">
+  <p>Please sign in first in the upper right corner.</p>
+</template>
+
+<template name="404">
+  <p>Page not found</p>
+</template>
+
+<template name="index">
+  {{loginButtons align="right"}} 
+
+  {{#if breadcrumbs}}
+  <div class="breadcrumb-container">
+    <ul class="breadcrumb">
+      {{#each breadcrumbs}}
+        {{#if active}}
+          <li class="active">{{name}}</li>
+        {{else}}
+          <li><a href="{{link}}">{{name}}</a> <span class="divider">/</span></li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  <div class="container">
+
+    
+    {{renderPage}}
+
+    <hr>
+
+    <footer>
+      <p>&copy; Snidd 2013</p>
+    </footer>
+
+  </div>
+</template>
+
+<template name="information">
+  <div class="hero-unit">
+    <h1>Welcome!</h1>
+    <p>Here you can create rotisserie drafts and draft with your friends, you can also view public drafts that other people have shared.</p>
+    <p><a href="{{createdraftPath}}" class="btn btn-primary btn-large">Create my first draft &raquo;</a></p>
+  </div>
+
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="span4">
+      <h2>My drafts</h2>
+      <p>View the drafts you have created, and the drafts you are and have participated in.</p>
+      <p><a class="btn" href="{{draftsPath}}">View my drafts &raquo;</a></p>
+    </div>
+    <div class="span4">
+      <h2>Public drafts</h2>
+      <p>Watch draft that other people have created and made available for everyone to watch</p>
+      <p><a class="btn" href="#">View public drafts &raquo;</a></p>
+    </div>
+    <div class="span4">
+      <h2>Latest draft</h2>
+      {{#with latestDraft}}
+        <p>{{name}}</p>
+        <p><a class="btn" href="{{draftPath _id}}">View draft &raquo;</a></p>
+      {{/with}}
+    </div>  
+  </div>
+</template>
