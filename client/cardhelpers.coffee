@@ -1,9 +1,12 @@
 #if getCurrentUserEmail() is "m.kjellberg@gmail.com" 
-Meteor.subscribe("cards")
 
 Template.cards.helpers
 	cards: ->
 		return Cards.find({}).fetch()
+
+Template.cards.rendered = ->
+	Meteor.defer ->
+		Meteor.subscribe "cards"
 
 Template.cards.events
 	'click .addcards' : (event) ->

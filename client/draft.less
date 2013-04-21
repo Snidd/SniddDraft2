@@ -1,5 +1,45 @@
 /* LESS CSS */
 
+.roundanddrop (@radius: 10px) {
+	padding:8px; 
+	border:2px solid black; 
+	border-radius: @radius;
+	box-shadow: 8px 8px 4px #666;
+	-o-box-shadow: 5px 5px 5px #888;
+	-icab-box-shadow: 5px 5px 5px #888;
+	-khtml-box-shadow: 5px 5px 5px #888;
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #888;
+}
+
+div.pick {
+	.roundanddrop(5px);
+	width: 150px;
+	margin: 10px;
+	float: left;
+	&.picked {
+		background-color: #80FF80;
+	}
+	&.waiting {
+		background-color: #EFEFEF;
+	}
+
+	p {
+		text-align: center;
+	}
+	p.card {
+		margin-bottom: 0px;
+	}
+	span.member {
+		color: #444;
+	}
+	span.card {
+		text-align: center;
+		color: #005C99;
+	}
+}
+
 div.container {
 	padding-top: 30px;
 }
