@@ -66,6 +66,8 @@ Meteor.methods
 		if draft.owner isnt Meteor.userId()
 			throw new Meteor.Error 505, "No access"
 		draft.started = true
+		draft.members = fisherYates(draft.members)
+		draft.picks = []
 		Drafts.update _id:draftId, draft
 		draft
 	removeDraft: (draftId) ->
@@ -80,6 +82,35 @@ Meteor.methods
 			Drafts.remove
 				_id:draftId
 		throw new Meteor.Error 506, "Unable to remove that draft"
+	pickCard: (cardName, draftId) ->
+		draft = Drafts.findOne
+			_id: draftId
+		if not currentUserInDraft(draft) then throw new Meteor.Error 505, "No access"
+		pickPosition = getNextPickPosition(draft.picks.length,draft.members.length)
+		if draft.members[pickPosition].id isnt Meteor.userId()
+			return addFuturePick(cardName, userId)
+		pick = new Pick(cardName, new Member(Meteor.user()))
+		draft.picks.push(pick);
+		Drafts.update _id:draftId, draft
+		draft
+
+addFuturePick = (cardName, userId) ->
+	return true
+
+currentUserInDraft = (draft) ->
+	draft.members.some (m) -> m.id is Meteor.userId()
+
+fisherYates = (arr) ->
+    i = arr.length;
+    if i == 0 then return false
+ 
+    while --i
+        j = Math.floor(Random.fraction() * (i+1))
+        tempi = arr[i]
+        tempj = arr[j]
+        arr[i] = tempj
+        arr[j] = tempi
+    return arr
 
 typeIsArray = ( value ) ->
     value and

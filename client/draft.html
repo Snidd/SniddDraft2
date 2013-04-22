@@ -7,31 +7,33 @@
 </template>
 
 <template name="draftInProgress">
-	<div class="pick picked">
-		<p class="member"><span class="member">m.kjellberg@gmail.com</span></p>
-		<p class="card"><span class="card">Amulet of Kroog</span></p>
-	</div>	
-	<div class="pick picked">
-		<p class="member"><span class="member">test@test.com</span></p>
-		<p class="card"><span class="card">Okina, Temple to the Grandfathers</span></p>
+	<div class="pickform">
+		<div class="input-append">
+  		<input class="span2" id="pickCard" placeholder="Enter card name..." type="text">
+  		<button class="btn pickcard" type="button">Pick!</button>
+		</div>
 	</div>
-	<div class="pick waiting">
-		<p class="member"><span class="member">karl.bertil@gmail.com</span></p>
-		<p class="card"><span class="card"></span></p>
-	</div>	
-	<div class="pick waiting">
-		<p class="member"><span class="member">karl.bertil@gmail.com</span></p>
-		<p class="card"><span class="card"></span></p>
-	</div>	
-	<div class="pick waiting">
-		<p class="member"><span class="member">test@test.com</span></p>
-		<p class="card"><span class="card"></span></p>
-	</div>		
-	<div class="pick waiting self">
-		<p class="member"><span class="member">m.kjellberg@gmail.com</span></p>
-		<p class="card"><span class="card"></span></p>
-	</div>	
-
+	<div class="historypicks">
+		{{#each pickHistory}}
+		<div class="pick picked {cssclass}" id="pick1">
+			<p class="member"><span class="member">{{member.email}}</span></p>
+			<p class="card"><span class="card">{{cardName}}</span></p>
+		</div>	
+		{{/each}}
+	</div>
+	<div class="futurepicks">
+		{{#each pickOrder}}
+		<div class="pick waiting {{cssclass}}" id="future{{counter}}">
+			<p class="member"><span class="member">{{email}}</span></p>
+			<p class="card"><span class="card"></span></p>
+		</div>	
+		{{/each}}
+	</div>
+	<div class="descriptors">
+		<div class="pick information" id="info1">
+			<p class="member"><span class="member">Current pick</span></p>
+		</div>	
+	</div>
 	<div class="clearfix">&nbsp;</div>
 </template>
 

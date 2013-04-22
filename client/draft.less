@@ -13,16 +13,89 @@
 	box-shadow: 5px 5px 5px #888;
 }
 
+div.pickform {
+	margin-bottom: 50px;
+	margin-left: 8px;
+	width: 400px;
+	.roundanddrop(5px);
+	.input-append {
+		margin-bottom: 0px;
+		input#pickCard {
+			margin-bottom: 0px;
+			width: 329px;
+		}	
+	}
+}
+
+
+
+div.draft.row
+{
+	clear: both;
+	width: 1000px;
+	overflow: ;
+	margin-left: -50px;
+	margin-bottom: 50px;
+}
+
+div.futurepicks
+{
+	float: left;
+}
+
+div.descriptors
+{
+	float: left;
+}
+
+div.historypicks 
+{
+	float: left;
+}
+
 div.pick {
 	.roundanddrop(5px);
 	width: 150px;
 	margin: 10px;
-	float: left;
+	margin-right: 20px;
+
+	&.player0 {
+		background-color: #FF66FF;
+	}
+	&.player1 {
+		background-color: #8DE2FF;
+	}
+	&.player2 {
+		background-color: #FF6666;
+	}
+	&.player3 {
+		background-color: #E0FF85;
+	}
+	&.player4 {
+		background-color: #339966;
+	}
+	&.player5 {
+		background-color: #B87070;
+	}
+	&.player6 {
+		background-color: #AD855C;
+	}
+	&.player7 {
+		background-color: #FF9900;
+	}
+	&.player8 {
+		background-color: #C9C9C9;	
+	}
+
+	&.self {
+		background-color: #4DDB4D;
+	}
+
 	&.picked {
-		background-color: #80FF80;
+		opacity: 0.5;
 	}
 	&.waiting {
-		background-color: #EFEFEF;
+		opacity: 1;
 	}
 
 	p {
