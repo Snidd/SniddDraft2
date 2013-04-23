@@ -14,17 +14,58 @@
 }
 
 .colortwo (@firstColor, @secondColor, @textColor) {
-	background-image: linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
-	background-image: -o-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
-	background-image: -moz-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
-	background-image: -webkit-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
-	background-image: -ms-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
+	background-image: linear-gradient(bottom, @firstColor 20%, @secondColor 80%);
+	background-image: -o-linear-gradient(bottom, @firstColor 20%, @secondColor 80%);
+	background-image: -moz-linear-gradient(bottom, @firstColor 20%, @secondColor 80%);
+	background-image: -webkit-linear-gradient(bottom, @firstColor 20%, @secondColor 80%);
+	background-image: -ms-linear-gradient(bottom, @firstColor 20%, @secondColor 80%);
 	color: @textColor;
+}
+
+.playerbg (@playerColor, @secondColor:#fff) {
+	background-image: linear-gradient(bottom, @playerColor 5%, @secondColor 90%);
+	background-image: -o-linear-gradient(bottom, @playerColor 5%, @secondColor 90%);
+	background-image: -moz-linear-gradient(bottom, @playerColor 5%, @secondColor 90%);
+	background-image: -webkit-linear-gradient(left, @playerColor 5%, @secondColor 5%);
+	background-image: -ms-linear-gradient(bottom, @playerColor 5%, @secondColor 90%);
 }
 
 .colorone (@color, @text) {
 	background-color: @color;
 	color: @text;
+}
+
+.playerbackground {
+	&.self {
+		background-color: #4DDB4D;
+	}
+	&.player0 {
+		background-color: @player0color;
+	}
+	&.player1 {
+		.playerbg(@player1color);
+	}
+	&.player2 {
+		background-color: @player2color;
+	}
+	&.player3 {
+		background-color: @player3color;
+	}
+	&.player4 {
+		background-color: @player4color;
+	}
+	&.player5 {
+		background-color: @player5color;
+	}
+	&.player6 {
+		background-color: @player6color;
+	}
+	&.player7 {
+		background-color: @player7color;
+	}
+	&.player8 {
+		background-color: @player8color;	
+	}
 }
 
 @textGold: #000;
@@ -104,36 +145,9 @@ div.pick {
 	margin: 10px;
 	margin-right: 20px;
 
-	&.player0 {
-		background-color: @player0color;
-	}
-	&.player1 {
-		background-color: @player1color;
-	}
-	&.player2 {
-		background-color: @player2color;
-	}
-	&.player3 {
-		background-color: @player3color;
-	}
-	&.player4 {
-		background-color: @player4color;
-	}
-	&.player5 {
-		background-color: @player5color;
-	}
-	&.player6 {
-		background-color: @player6color;
-	}
-	&.player7 {
-		background-color: @player7color;
-	}
-	&.player8 {
-		background-color: @player8color;	
-	}
-
-	&.self {
-		background-color: #4DDB4D;
+	&.spreadsheet {
+		height: 35px;
+		margin: 10px;
 	}
 
 	&.gold { .colorone(@cardGold, @textGold); }
@@ -146,7 +160,7 @@ div.pick {
 	&.green { .colorone(@cardGreen, @textGreen); }
 
 	&.whiteblue { .colortwo(@cardWhite, @cardBlue, @textWhite); }
-	&.whiteblack { .colortwo(@cardWhite, @cardBlack, #666); }
+	&.whiteblack { .colortwo(@cardWhite, @cardBlack, #222); }
 	&.whitered { .colortwo(@cardWhite, @cardRed, @textWhite); }
 	&.whitegreen { .colortwo(@cardWhite, @cardGreen, @textWhite); }
 
@@ -176,10 +190,14 @@ div.pick {
 	}
 	&.waiting {
 		opacity: 1;
-		span.member {
+		.playerbackground;
+		.member {
 			color: #444;
+			.label {
+				
+			}
 		}
-		span.card {
+		.card {
 			color: #005C99;
 		}
 	}
@@ -205,8 +223,9 @@ div.breadcrumb-container {
 }
 
 #login-buttons {
-	float: right;
+	float: left;
 	margin-right: 35px;
+	margin-left: 35px;
 }
 
 div.alert {

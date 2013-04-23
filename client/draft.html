@@ -18,7 +18,7 @@
 	</div>
 	<div class="historypicks">
 		{{#each pickHistory}}
-		<div class="pick picked recent{{recent}} {{cardColorClass this.card}}">
+		<div class="pick picked recenttrue {{cardColorClass this.card}}" >
 			<p class="member"><span class="member">{{member.email}}</span></p>
 			<p class="added"><i class="icon-plus added"></i></p>
 			<p class="card"><span class="card">{{card.name}}</span></p>
@@ -28,8 +28,7 @@
 	<div class="futurepicks">
 		{{#each pickOrder}}
 		<div class="pick waiting {{cssclass}}" id="future{{counter}}">
-			<p class="member"><span class="member">{{email}}</span></p>
-			<p class="card"><span class="card"></span></p>
+			<p class="member">{{email}}</p>
 		</div>	
 		{{/each}}
 	</div>
