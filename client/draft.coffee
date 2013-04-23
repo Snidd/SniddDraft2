@@ -13,6 +13,7 @@ Template.draftInProgress.rendered = ->
         lineWidth: 2,
         strokeStyle: "#000"
       console.log "plumbing!"
+      ###
       jsPlumb.connect
         source: "future0"
         target: "pick1"
@@ -23,9 +24,10 @@ Template.draftInProgress.rendered = ->
         target: "info1"
         connector: [ "Flowchart", 25 ],
         anchors: ["RightMiddle", "LeftMiddle"]
+      ###
 
 Template.draftInProgress.events
-  'click .btn.pickcard' : ->
+  'submit #pickCardForm' : ->
     pickCardField = document.getElementById('pickCard')
     cardName = pickCardField.value
     console.log "Picking #{cardName}"
@@ -39,6 +41,7 @@ Template.draftInProgress.events
           console.log "Card already picked"
       true
     pickCardField.value = ''
+    false
 Template.draftInProgress.helpers
   pickOrder: ->
     currentDraft = getCurrentDraft()
@@ -56,6 +59,35 @@ Template.draftInProgress.helpers
       return [new Pick("", "No picks yet")]
     else
       return currentDraft.picks.reverse()
+  myFuture: ->
+    FuturePicks.findOne
+      userId: Meteor.userId()
+      draftId: Session.get("currentDraftId")
+  myTurn: ->
+    draft = getCurrentDraft()
+    pickPosition = getNextPickPosition(draft.picks.length,draft.members.length)
+    return draft.members[pickPosition].id is Meteor.userId()
+  cardColorClass: (card) ->
+    if !card? then return "unknown"
+    if !card.manacost? then return "unknown"
+    white = card.manacost.indexOf("W",0) > -1
+    blue = card.manacost.indexOf("U",0) > -1
+    black = card.manacost.indexOf("B",0) > -1
+    red = card.manacost.indexOf("R",0) > -1
+    green = card.manacost.indexOf("G",0) > -1
+
+    colors = []
+
+    if white then colors.push "white"
+    if blue then colors.push "blue"
+    if black then colors.push "black"
+    if red then colors.push "red"
+    if green then colors.push "green"
+
+    if colors.length is 1 then return colors[0]
+    if colors.length > 2 then return "gold"
+    if colors.length is 0 then return "colorless"
+    return colors[0] + colors[1]
 
 
 

@@ -4,6 +4,11 @@ Meteor.publish 'drafts', ->
 Meteor.publish 'cards', ->
 	Cards.find({})
 
+Meteor.publish 'futurepicks', ->
+	FuturePicks.find({ userId: this.userId })
+
+#userId: this.userId
+
 @Drafts.allow
 	insert: (userId, draft) ->
 		userId and draft.owner is userId
@@ -23,6 +28,11 @@ Meteor.publish 'cards', ->
 		return false
 	remove: (userId, card) ->
 		if getCurrentUserEmail() is "m.kjellberg@gmail.com" then return true
+		return false
+
+@FuturePicks.allow
+	insert: (userId, futurepick) ->
+		if userId is futurepick.userId then return true
 		return false
 
 Meteor.methods
@@ -86,13 +96,32 @@ Meteor.methods
 		draft = Drafts.findOne
 			_id: draftId
 		if not currentUserInDraft(draft) then throw new Meteor.Error 505, "No access"
+		card = getCard cardName
+		if !card? then throw new Meteor.Error 404, "Card not found"
+		if cardAlreadyPicked(draft, cardName) then throw new Meteor.Error 601, "Card already picked"
+		
+		userId = Meteor.userId()
 		pickPosition = getNextPickPosition(draft.picks.length,draft.members.length)
-		if draft.members[pickPosition].id isnt Meteor.userId()
-			return addFuturePick(cardName, userId)
-		pick = new Pick(cardName, new Member(Meteor.user()))
-		draft.picks.push(pick);
-		Drafts.update _id:draftId, draft
+		
+		if draft.members[pickPosition].id isnt userId
+			fp = FuturePicks.findOne
+				userId: userId
+				draftId: draftId
+			if !fp?
+				fp = new FuturePick(userId, draftId)
+				result = FuturePicks.insert fp
+			if stringInArray(fp.picks, cardName) then throw new Meteor.Error 601, "Card already picked"
+			fp.picks.push new FutureCard(cardName, card.manacost)
+			FuturePicks.update _id:fp._id, fp
+		else
+			pick = new Pick(card, new Member(Meteor.user()), draftId)
+			draft.picks.push(pick);
+			Drafts.update _id:draftId, draft
 		draft
+
+getCard = (cardName) ->
+	card = Cards.findOne
+		name: cardName
 
 addFuturePick = (cardName, userId) ->
 	return true

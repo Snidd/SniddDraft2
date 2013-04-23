@@ -18,3 +18,28 @@
     return parseInt(((finishedRounds + posInRound) % draftSize) + 1)-1
   else
     return parseInt((finishedRounds + (draftSize * 2 - 1 - posInRound)) % draftSize + 1)-1
+
+@stringInArray = (arrayToSearch, stringToFind) ->
+	arrayToSearch.some (fp) -> fp is stringToFind
+
+@cardAlreadyPicked = (draft, cardName) ->
+	draft.picks.some (p) -> p.cardName is cardName
+
+@getFuturePicksForDraft = (userId, draftId) ->
+	fp = FuturePicks.findOne
+		userId: userId
+		draftId: draftId
+	if !fp?
+		fp = new FuturePick(userId, draftId)
+		FuturePicks.insert fp
+	return fp
+
+@pickNoLongerRecent = (pickId, draftId) ->
+	if Meteor.isServer
+		console.log "Updating #{pickId}"
+		draft = Drafts.findOne
+			_id: draftId
+		for pick in draft.picks
+			if pick.pickId is pickId then pick.recent = false
+		Drafts.update _id: draftId, draft
+	

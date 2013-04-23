@@ -1,4 +1,5 @@
 # coffee
+Meteor.subscribe "futurepicks"
 Meteor.subscribe "drafts"
 
 Meteor.Router.filters
@@ -52,6 +53,28 @@ Meteor.methods
       _id: draftId
     Drafts.remove
       _id:draftId
+  pickCard: (cardName, draftId) ->
+    draft = Drafts.findOne
+      _id: draftId
+    if cardAlreadyPicked(draft, cardName) then return false
+    userId = Meteor.userId()
+    pickPosition = getNextPickPosition(draft.picks.length,draft.members.length)
+    
+    if draft.members[pickPosition].id isnt userId
+      fp = FuturePicks.findOne
+        userId: userId
+        draftId: draftId
+      if !fp?
+        fp = new FuturePick(userId, draftId)
+        FuturePicks.insert fp
+      if stringInArray(fp.picks, cardName) then return false
+      fp.picks.push new FutureCard(cardName, "")
+      FuturePicks.update _id:fp._id, fp
+    else
+      pick = new Pick({name: cardName}, new Member(Meteor.user()), draftId)
+      draft.picks.push(pick);
+      Drafts.update _id:draftId, draft
+    draft
 
 #Template.createdraft.helpers
     
