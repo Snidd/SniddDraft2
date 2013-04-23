@@ -8,16 +8,20 @@
 
 <template name="draftInProgress">
 	<div class="pickform">
+		<form id="pickCardForm">
 		<div class="input-append">
+
   		<input class="span2" id="pickCard" placeholder="Enter card name..." type="text">
-  		<button class="btn pickcard" type="button">Pick!</button>
+  		<button class="btn pickcard {{#if myTurn}}btn-primary{{/if}}" type="submit">Pick!</button>
 		</div>
+		</form>
 	</div>
 	<div class="historypicks">
 		{{#each pickHistory}}
-		<div class="pick picked {cssclass}" id="pick1">
+		<div class="pick picked recent{{recent}} {{cardColorClass this.card}}">
 			<p class="member"><span class="member">{{member.email}}</span></p>
-			<p class="card"><span class="card">{{cardName}}</span></p>
+			<p class="added"><i class="icon-plus added"></i></p>
+			<p class="card"><span class="card">{{card.name}}</span></p>
 		</div>	
 		{{/each}}
 	</div>
@@ -30,9 +34,11 @@
 		{{/each}}
 	</div>
 	<div class="descriptors">
-		<div class="pick information" id="info1">
-			<p class="member"><span class="member">Current pick</span></p>
+		{{#each myFuture.picks}}
+		<div class="pick information {{cardColorClass this}}" id="info1">
+			<p class="card"><span class="card">{{this.name}}</span></p>
 		</div>	
+		{{/each}}
 	</div>
 	<div class="clearfix">&nbsp;</div>
 </template>

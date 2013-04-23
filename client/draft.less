@@ -13,16 +13,61 @@
 	box-shadow: 5px 5px 5px #888;
 }
 
+.colortwo (@firstColor, @secondColor, @textColor) {
+	background-image: linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
+	background-image: -o-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
+	background-image: -moz-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
+	background-image: -webkit-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
+	background-image: -ms-linear-gradient(bottom, @firstColor 50%, @secondColor 50%);
+	color: @textColor;
+}
+
+.colorone (@color, @text) {
+	background-color: @color;
+	color: @text;
+}
+
+@textGold: #000;
+@textBlue: #000;
+@textWhite: #000;
+@textRed: #FFF;
+@textGreen: #000;
+@textBlack: #FFF;
+@textUnknown: #000;
+
+@cardGold: #D6AD33;
+@cardBlue: #70C6E2;
+@cardWhite: #FFF;
+@cardRed: #FF3300;
+@cardGreen: #339933;
+@cardBlack: #1A1A1A;
+@cardUnknown: #ccc;
+
+@player0color: #FF66FF;
+@player1color: #8DE2FF;
+@player2color: #FF6666;
+@player3color: #E0FF85;
+@player4color: #339966;
+@player5color: #B87070;
+@player6color: #AD855C;
+@player7color: #FF9900;
+@player8color: #C9C9C9;
+
+@pickFormWidth: 353px;
+
 div.pickform {
 	margin-bottom: 50px;
 	margin-left: 8px;
-	width: 400px;
+	width: @pickFormWidth;	
+	#pickCardForm {
+		margin-bottom: 0px;
+	}
 	.roundanddrop(5px);
 	.input-append {
 		margin-bottom: 0px;
 		input#pickCard {
 			margin-bottom: 0px;
-			width: 329px;
+			width: @pickFormWidth - 71px;
 		}	
 	}
 }
@@ -60,42 +105,83 @@ div.pick {
 	margin-right: 20px;
 
 	&.player0 {
-		background-color: #FF66FF;
+		background-color: @player0color;
 	}
 	&.player1 {
-		background-color: #8DE2FF;
+		background-color: @player1color;
 	}
 	&.player2 {
-		background-color: #FF6666;
+		background-color: @player2color;
 	}
 	&.player3 {
-		background-color: #E0FF85;
+		background-color: @player3color;
 	}
 	&.player4 {
-		background-color: #339966;
+		background-color: @player4color;
 	}
 	&.player5 {
-		background-color: #B87070;
+		background-color: @player5color;
 	}
 	&.player6 {
-		background-color: #AD855C;
+		background-color: @player6color;
 	}
 	&.player7 {
-		background-color: #FF9900;
+		background-color: @player7color;
 	}
 	&.player8 {
-		background-color: #C9C9C9;	
+		background-color: @player8color;	
 	}
 
 	&.self {
 		background-color: #4DDB4D;
 	}
 
+	&.gold { .colorone(@cardGold, @textGold); }
+	&.unknown { .colorone(@cardUnknown, @textUnknown); }
+	&.colorless { .colorone(@cardUnknown, @textUnknown); }
+	&.white { .colorone(@cardWhite, @textWhite); }
+	&.blue { .colorone(@cardBlue, @textBlue); }
+	&.black { .colorone(@cardBlack, @textBlack); }
+	&.red { .colorone(@cardRed, @textRed); }
+	&.green { .colorone(@cardGreen, @textGreen); }
+
+	&.whiteblue { .colortwo(@cardWhite, @cardBlue, @textWhite); }
+	&.whiteblack { .colortwo(@cardWhite, @cardBlack, #666); }
+	&.whitered { .colortwo(@cardWhite, @cardRed, @textWhite); }
+	&.whitegreen { .colortwo(@cardWhite, @cardGreen, @textWhite); }
+
+	&.blueblack { .colortwo(@cardBlue, @cardBlack, @textBlack); }
+	&.bluered { .colortwo(@cardBlue, @cardRed, @textRed); }
+	&.bluegreen { .colortwo(@cardBlue, @cardGreen, @textGreen); }
+
+	&.blackred { .colortwo(@cardBlack, @cardRed, @textBlack); }
+	&.blackgreen { .colortwo(@cardBlack, @cardGreen, @textBlack); }
+
+	&.redgreen { .colortwo(@cardRed, @cardGreen, @textGreen); }
+
 	&.picked {
-		opacity: 0.5;
+		span.member {
+			opacity: 0.8;
+			font-style: italic;
+		}
+		&.recenttrue {
+			opacity: 1;
+		}
+		&.recentfalse {
+			opacity: 0.6;
+			.added {
+				display: none;
+			}
+		}
 	}
 	&.waiting {
 		opacity: 1;
+		span.member {
+			color: #444;
+		}
+		span.card {
+			color: #005C99;
+		}
 	}
 
 	p {
@@ -104,12 +190,8 @@ div.pick {
 	p.card {
 		margin-bottom: 0px;
 	}
-	span.member {
-		color: #444;
-	}
 	span.card {
 		text-align: center;
-		color: #005C99;
 	}
 }
 
