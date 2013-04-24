@@ -6,7 +6,7 @@
 	{{/if}}
 </template>
 
-<template name="draftInProgress">
+<template name="draftPick">
 	<div class="pickform">
 		<form id="pickCardForm">
 		<div class="input-append">
@@ -16,6 +16,10 @@
 		</div>
 		</form>
 	</div>
+</template>
+
+<template name="draftInProgress">
+	{{> draftPick}}
 	<div class="historypicks">
 		{{#each pickHistory}}
 		<div class="pick picked recenttrue {{cardColorClass this.card}}" >

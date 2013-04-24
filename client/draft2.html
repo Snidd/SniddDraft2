@@ -1,15 +1,7 @@
 <template name="viewDraftInProgress">
-	<div class="pickform">
-		<form id="pickCardForm">
-		<div class="input-append">
+	{{> draftPick}}
 
-  		<input class="span2" id="pickCard" placeholder="Enter card name..." type="text">
-  		<button class="btn pickcard {{#if myTurn}}btn-primary{{/if}}" type="submit">Pick!</button>
-		</div>
-		</form>
-	</div>
-
-		{{#each draftMembers}}
+	{{#each draftMembers}}
 		<div class="historypicks">
 			<div class="pick info" >
 				<p class="member"><span class="member">{{email}}</span></p>
@@ -20,7 +12,7 @@
 				</div>
 			{{/each}}
 		</div>	
-		{{/each}}
+	{{/each}}
 
 	<div class="clearfix">&nbsp;</div>
 </template>

@@ -29,7 +29,7 @@ Template.draftInProgress.rendered = ->
         anchors: ["RightMiddle", "LeftMiddle"]
       ###
 
-Template.draftInProgress.events
+Template.draftPick.events
   'submit #pickCardForm' : ->
     pickCardField = document.getElementById('pickCard')
     cardName = pickCardField.value
