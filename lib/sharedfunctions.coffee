@@ -23,7 +23,7 @@
 	arrayToSearch.some (fp) -> fp is stringToFind
 
 @cardAlreadyPicked = (draft, cardName) ->
-	draft.picks.some (p) -> p.cardName is cardName
+	draft.picks.some (p) -> p.card.name is cardName
 
 @getFuturePicksForDraft = (userId, draftId) ->
 	fp = FuturePicks.findOne
@@ -40,6 +40,7 @@
 		draft = Drafts.findOne
 			_id: draftId
 		for pick in draft.picks
-			if pick.pickId is pickId then pick.recent = false
+			pick.recent = false
+			
 		Drafts.update _id: draftId, draft
 	

@@ -11,9 +11,10 @@ class @FuturePick
 class @FutureCard
 	constructor: (@name, @manacost) ->
 		@important = false
+		@htmlid = Random.id()
 
 class @Pick
-	constructor: (@card, @member, @draftId) ->
+	constructor: (@card, @member, @draftId, @playerNumber) ->
 		@pickId = Random.id()
 		@recent = true
 		userIdToPass = @pickId

@@ -7,7 +7,7 @@
 </template>
 
 <template name="draftPick">
-	<div class="pickform">
+	<div class="pickform" id="pickContainer">
 		<form id="pickCardForm">
 		<div class="input-append">
 
@@ -18,28 +18,47 @@
 	</div>
 </template>
 
+<template name="switchView">
+	{{#with switchTo}}
+		<div class="changeview">
+			<a href="{{url}}">Switch to {{text}}</a>
+		</div>
+	{{/with}}
+</template>
+
 <template name="draftInProgress">
+	{{> switchView}}
 	{{> draftPick}}
+	<div class="pick filter hide" id="showingall">
+			<p class="description">Showing only</p>
+			<p class="member"></p>
+			<p class="showall" id="showallbtn">Show all</p>
+	</div>	
 	<div class="historypicks">
 		{{#each pickHistory}}
-		<div class="pick picked recent{{recent}} {{cardColorClass this.card}}" >
+		<div class="pick picked player{{playerNumber}} recent{{recent}} {{cardColorClass this.card}}" >
 			<div class="addedicon"><i class="icon-plus added"></i></div>
 			<p class="member"><span class="member">{{member.email}}</span></p>
 			<p class="card"><span class="card">{{card.name}}</span></p>
 		</div>	
 		{{/each}}
 	</div>
-	<div class="futurepicks">
+	<div class="pickorder">
 		{{#each pickOrder}}
 		<div class="pick waiting {{cssclass}}" id="future{{counter}}">
 			<p class="member">{{email}}</p>
 		</div>	
 		{{/each}}
 	</div>
-	<div class="descriptors">
+	<div class="futurepicks">
 		{{#each myFuture.picks}}
-		<div class="pick information {{cardColorClass this}}" id="info1">
-			<p class="card"><span class="card">{{this.name}}</span></p>
+		<div class="pick futurepick {{cardColorClass this}}" id="info1">
+			<button type='button' class='close futurepick'>&times;</button>
+			<p class="card">
+				<span class="text">!</span>
+				<input id="{{htmlid}}" data-trigger="hover" data-title="Test" data-content="Description on what this checkbox does" type="checkbox" {{#if this.important}}checked {{/if}}class="important" value="">
+				<span class="card">{{this.name}}</span>
+			</p>
 		</div>	
 		{{/each}}
 	</div>

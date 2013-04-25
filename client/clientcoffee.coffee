@@ -1,6 +1,4 @@
-# coffee
-Meteor.subscribe "futurepicks"
-Meteor.subscribe "drafts"
+
 
 Meteor.Router.filters
   'checkLoggedIn': (page) ->
@@ -31,8 +29,30 @@ Meteor.Router.add
   '/draft/:id': 
   	to: 'draft'
   	and: (id) -> Session.set('currentDraftId', id)
+  '/draft/spreadsheet/:id':
+    to: 'spreadsheet'
+    and: (id) -> Session.set('currentDraftId', id)
 
 Meteor.methods
+  setImportant: (draftId, cardName, important) ->
+    fp = FuturePicks.findOne
+      userId: Meteor.userId()
+      draftId: draftId
+    if !fp? then return
+
+    fpid = fp._id
+    pickIndex = _.indexOf(_.pluck(fp.picks, 'name'), cardName)
+    
+    modified = {$set: {}}
+    modified.$set["picks." + pickIndex + ".important"] = important
+    FuturePicks.update fpid, modified
+  removeFuturePick: (cardName, draftId) ->
+    fps = FuturePicks.findOne
+      userId: Meteor.userId()
+      draftId: draftId
+    fps.picks = fps.picks.filter (p) ->
+      p.name isnt cardName
+    FuturePicks.update _id: fps._id, fps
   addMemberToDraft: (draftId, emailAddress) ->
     #do stuff here to add member to draft
     draft = Drafts.findOne
@@ -68,12 +88,13 @@ Meteor.methods
         fp = new FuturePick(userId, draftId)
         FuturePicks.insert fp
       if stringInArray(fp.picks, cardName) then return false
-      fp.picks.push new FutureCard(cardName, "")
-      FuturePicks.update _id:fp._id, fp
+      newPick = new FutureCard(cardName, "")
+      FuturePicks.update { _id: fp._id },
+        "$push": { "picks" : newPick }
     else
-      pick = new Pick({name: cardName}, new Member(Meteor.user()), draftId)
-      draft.picks.push(pick);
-      Drafts.update _id:draftId, draft
+      newPick = new Pick({name: cardName}, new Member(Meteor.user()), draftId, pickPosition)
+      Drafts.update { _id: draftId },
+        "$push": { "picks" : newPick }
     draft
 
 #Template.createdraft.helpers

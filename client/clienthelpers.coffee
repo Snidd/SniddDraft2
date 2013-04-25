@@ -15,7 +15,7 @@ Template.index.helpers
       active: false
       link: Meteor.Router.informationPath()
           
-    if curPage is 'draft' 
+    if curPage is 'draft' or 'spreadsheet'
     then ret.push 
       name: 'Drafts'
       active:false

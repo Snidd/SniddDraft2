@@ -22,6 +22,15 @@
 	color: @textColor;
 }
 
+.colorthree (@firstColor, @secondColor, @thirdColor, @textColor) {
+	background-image: linear-gradient(bottom, @firstColor 10%, @secondColor 60%, @thirdColor 90%);
+	background-image: -o-linear-gradient(bottom, @firstColor 10%, @secondColor 60%, @thirdColor 90%);
+	background-image: -moz-linear-gradient(bottom, @firstColor 10%, @secondColor 60%, @thirdColor 90%);
+	background-image: -webkit-linear-gradient(bottom, @firstColor 10%, @secondColor 60%, @thirdColor 90%);
+	background-image: -ms-linear-gradient(bottom, @firstColor 10%, @secondColor 60%, @thirdColor 90%);
+	color: @textColor;
+}
+
 .playerbg (@playerColor, @secondColor:#fff) {
 	background-image: linear-gradient(bottom, @playerColor 5%, @secondColor 90%);
 	background-image: -o-linear-gradient(bottom, @playerColor 5%, @secondColor 90%);
@@ -40,31 +49,31 @@
 		background-color: #4DDB4D;
 	}
 	&.player0 {
-		background-color: @player0color;
+		.playerbg(@player0color);
 	}
 	&.player1 {
 		.playerbg(@player1color);
 	}
 	&.player2 {
-		background-color: @player2color;
+		.playerbg(@player2color);
 	}
 	&.player3 {
-		background-color: @player3color;
+		.playerbg(@player3color);
 	}
 	&.player4 {
-		background-color: @player4color;
+		.playerbg(@player4color);
 	}
 	&.player5 {
-		background-color: @player5color;
+		.playerbg(@player5color);
 	}
 	&.player6 {
-		background-color: @player6color;
+		.playerbg(@player6color);
 	}
 	&.player7 {
-		background-color: @player7color;
+		.playerbg(@player7color);
 	}
 	&.player8 {
-		background-color: @player8color;	
+		.playerbg(@player8color);
 	}
 }
 
@@ -96,12 +105,22 @@
 
 @pickFormWidth: 353px;
 
+div.changeview {
+	position: absolute;
+	top: 63px;
+	left: 34px;
+}
+
 div.pickform {
 	margin-bottom: 50px;
 	margin-left: 8px;
 	width: @pickFormWidth;	
 	#pickCardForm {
 		margin-bottom: 0px;
+	}
+
+	.alert {
+		margin-bottom: 5px;
 	}
 	.roundanddrop(5px);
 	.input-append {
@@ -113,6 +132,9 @@ div.pickform {
 	}
 }
 
+span.popovertext {
+	color: #111;
+}
 
 
 div.draft.row
@@ -129,7 +151,7 @@ div.futurepicks
 	float: left;
 }
 
-div.descriptors
+div.pickorder
 {
 	float: left;
 }
@@ -139,6 +161,19 @@ div.historypicks
 	float: left;
 }
 
+div.futurepick {
+
+	.close.futurepick {
+		margin-top: -2px;
+		margin-bottom: 0px;
+	}
+	input.important {
+		margin-bottom: 7px;
+		margin-right: 5px;
+		margin-left: 3px;
+	}
+}
+
 div.pick {
 	.roundanddrop(5px);
 	width: 150px;
@@ -146,10 +181,30 @@ div.pick {
 	margin-right: 20px;
 	position: relative;
 
+	&.futurepick {
+		width: 200px;
+	}
+
+	&.filter {
+		p {
+			margin: 0px;
+		}
+		.showall {
+			color: #00f;
+			
+		}
+		.description {
+			font-size: 12px;
+			color: #aaa;
+		}
+	}
+
 	&.spreadsheet {
 		height: 35px;
 		margin: 10px;
 	}
+
+	.playerbackground;
 
 	&.gold { .colorone(@cardGold, @textGold); }
 	&.unknown { .colorone(@cardUnknown, @textUnknown); }
@@ -173,6 +228,18 @@ div.pick {
 	&.blackgreen { .colortwo(@cardBlack, @cardGreen, @textBlack); }
 
 	&.redgreen { .colortwo(@cardRed, @cardGreen, @textGreen); }
+
+	&.whiteblueblack { .colorthree(@cardWhite, @cardBlue, @cardBlack, @textWhite); }
+	&.whitebluered { .colorthree(@cardWhite, @cardBlue, @cardRed, @textWhite); }
+	&.whitebluegreen { .colorthree(@cardWhite, @cardBlue, @cardGreen, @textWhite); }
+	&.whiteblackred { .colorthree(@cardWhite, @cardBlack, @cardRed, @textWhite); }
+	&.whiteblackgreen { .colorthree(@cardWhite, @cardBlack, @cardGreen, @textWhite); }
+	&.whiteredgreen { .colorthree(@cardWhite, @cardRed, @cardGreen, @textWhite); }
+
+	&.blueblackred { .colorthree(@cardBlue, @cardBlack, @cardRed, @textBlack); }
+	&.blueblackgreen { .colorthree(@cardBlue, @cardBlack, @cardGreen, @textBlack); }
+
+	&.blackredgreen { .colorthree(@cardBlack, @cardRed, @cardGreen, @textBlack); }
 
 	&.picked {
 		span.member {
@@ -199,10 +266,19 @@ div.pick {
 				display: none;
 			}
 		}
+		&.highlight {
+			opacity: 1;
+			span.member {
+				opacity: 1;
+			}
+		}
 	}
 	&.waiting {
 		opacity: 1;
-		.playerbackground;
+		&.highlight {
+			border: 4px solid #000;
+			padding: 6px;
+		}
 		.member {
 			color: #444;
 			.label {
@@ -219,6 +295,12 @@ div.pick {
 	}
 	p.card {
 		margin-bottom: 0px;
+
+		.popover.fade.right.in {
+			width: 225px;
+			color: #111;
+		}
+
 	}
 	span.card {
 		text-align: center;
@@ -232,6 +314,7 @@ div.container {
 div.breadcrumb-container {
 	padding: 20px;
 	padding-bottom: 0px;
+	position: relative;
 }
 
 #login-buttons {

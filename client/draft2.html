@@ -1,9 +1,11 @@
-<template name="viewDraftInProgress">
+<template name="spreadsheet">
+	{{> switchView}}
+
 	{{> draftPick}}
 
 	{{#each draftMembers}}
 		<div class="historypicks">
-			<div class="pick info" >
+			<div class="pick info {{cssclass}}" >
 				<p class="member"><span class="member">{{email}}</span></p>
 			</div>
 			{{#each picksByMember id}}

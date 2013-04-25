@@ -6,6 +6,9 @@
 		when 'draft'
 		 	curDraft = getCurrentDraft()
 		 	curDraft.name
+		 when 'spreadsheet'
+		 	curDraft = getCurrentDraft()
+		 	curDraft.name
 
 @alertDiv = (header, message) ->
 	"<div class='alert'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>#{header}</strong> #{message}</div>"
