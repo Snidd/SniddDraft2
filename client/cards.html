@@ -1,6 +1,19 @@
 <template name="cards">
-	<p><button class="btn btn-primary addcards">Add cards</button></p>
 	<p>{{cards.length}} cards in database</p>
+
+	<form id="scanSetForm">
+		<input id="setName" type="text" placeholder="Alara Reborn">
+		<input id="setAbbrevation" type="text" placeholder="ARB">
+		<input type="submit" class="btn btn-primary scansets" value="Add set"/>
+	</form>
+
+	<div id="cardsAdded">
+	</div>
+
+	<p>
+		<button class="btn addcards">Read XML</button>
+	</p>
+	
 	<textarea id="xmlinput"></textarea>
 
 </template>

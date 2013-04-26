@@ -1,3 +1,5 @@
+
+
 @getCurrentUserEmail = ->
 	user = Meteor.user()
 	if user isnt undefined
@@ -41,6 +43,6 @@
 			_id: draftId
 		for pick in draft.picks
 			pick.recent = false
-			
+
 		Drafts.update _id: draftId, draft
 	

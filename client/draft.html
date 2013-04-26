@@ -45,7 +45,7 @@
 	</div>
 	<div class="pickorder">
 		{{#each pickOrder}}
-		<div class="pick waiting {{cssclass}}" id="future{{counter}}">
+		<div class="pick waiting {{cssclass}}{{#if isself}} self{{/if}}" id="future{{counter}}">
 			<p class="member">{{email}}</p>
 		</div>	
 		{{/each}}

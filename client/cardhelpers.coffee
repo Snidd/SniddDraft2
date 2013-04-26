@@ -36,6 +36,12 @@ Template.cards.events
 					console.log "Added set: #{newSet}"
 				console.log "Card: #{newCard.name} already exists"
 		return false
+	'submit #scanSetForm' : (event) ->
+		setAbb = document.getElementById('setAbbrevation').value
+		setName = document.getElementById('setName').value
+		console.log "Adding #{setName} (#{setAbb})"
+		Meteor.call "addSet", setName, setAbb
+		false
 
 parseXml = (xmlStr) ->
 	return (new window.DOMParser()).parseFromString(xmlStr, "text/xml")

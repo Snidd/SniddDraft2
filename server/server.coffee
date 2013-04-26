@@ -122,6 +122,20 @@ Meteor.methods
 		throw new Meteor.Error 506, "Unable to remove that draft"
 	pickCard: (cardName, draftId) ->
 		pickCard cardName, draftId, Meteor.userId()
+	scanSet: (setName) ->
+		MtgTutor.sets (err, setNames) ->
+			console.log setNames
+	addSet: (setName, setAbbr) ->
+		addMtgSet(setName, setAbbr, 1)
+
+addMtgSet = (setName, setAbbr, pageNumber) ->
+	MtgTutor.set name: setName, page: pageNumber, (err, set) ->
+		for card in set.cards
+			console.log "#{card.name} - #{card.mana_cost}"
+			Fibers(->Cards.insert { name: card.name, manacost: card.mana_cost, set: [ setAbbr ] }).run()
+		if pageNumber < set.pages 
+			addMtgSet(setName, setAbbr, pageNumber+1)
+		true
 
 pickCard = (cardName, draftId, userId) ->
 	draft = Drafts.findOne
