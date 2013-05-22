@@ -50,7 +50,7 @@
 		</div>	
 		{{/each}}
 	</div>
-	<div class="futurepicks">
+	<div class="futurepicks clearfix">
 		{{#each myFuture.picks}}
 		<div class="pick futurepick {{cardColorClass this}}" id="info1">
 			<button type='button' class='close futurepick'>&times;</button>
@@ -62,7 +62,38 @@
 		</div>	
 		{{/each}}
 	</div>
-	<div class="clearfix">&nbsp;</div>
+</template>
+
+<template name="chatWindow">
+	{{#if showChat}}
+	<div id="chatWindow" class="chat {{chatExpand}}">
+		<div class="expand arrow">&laquo;</div>
+		<div class="expand users">click to open chat</div>
+		<div class="closing arrow">&raquo;</div>
+		<div class="messages" id="chatmessages">
+			{{#each messages}}
+				<div class="message">
+					<span class="name {{playerclass}}">
+						<span class="playericon {{playerclass}}">■</span>{{email}}:</span>
+					<span class="date">{{textMoment timestamp}}</span>
+					{{#if isText}}
+						<span class="text"><span class="textstart">></span>{{text}}</span>
+					{{else}}
+						<span class="text card">Picked <span class="card">{{text}}</span></span>
+					{{/if}}
+				</div>
+			{{/each}}
+		</div>
+		<div class="messageinput">
+			<form id="chatInputForm">
+				<div class="input-append">
+	  			<input class="span2" id="addChatText" placeholder="Message..." type="text">
+	  			<button class="btn" type="submit">chat!</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	{{/if}}
 </template>
 
 <template name="startDraft">
@@ -88,7 +119,7 @@
 		</div>
     <span class="help-block">Enter a users email and click the + sign to add him to your draft.</span>
 
-    <button type="submit" {{startable}} class="btn btn-primary startdraft">Start draft</button>
+    <button type="button" {{startable}} class="btn btn-primary startdraft">Start draft</button>
   </fieldset>
 </form>
 </template>

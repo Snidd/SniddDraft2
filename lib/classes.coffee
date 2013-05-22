@@ -23,3 +23,7 @@ class @Pick
 			Meteor.setTimeout ->
 				pickNoLongerRecent userIdToPass, draftIdToPass
 			,10000
+
+class @Message
+	constructor: (@draftId, @email, @text, @type, @playerclass) ->
+		@timestamp = new Date()

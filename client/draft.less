@@ -1,5 +1,14 @@
 /* LESS CSS */
 
+@rightColumnSmallSize: 30px;
+@rightColumnSize: 230px;
+@leftColumnSize: 175px;
+
+@chatInputSize: 35px;
+
+@lighterblack: #aaa;
+@actionColor: #1F5C99;
+
 .roundanddrop (@radius: 10px) {
 	padding:8px; 
 	border:2px solid black; 
@@ -42,6 +51,36 @@
 .colorone (@color, @text) {
 	background-color: @color;
 	color: @text;
+}
+
+.playercolors {
+	&.player0 {
+		color: @player0color;
+	}
+	&.player1 {
+		color: @player1color;
+	}
+	&.player2 {
+		color: @player2color;
+	}
+	&.player3 {
+		color: @player3color;
+	}
+	&.player4 {
+		color: @player4color;
+	}
+	&.player5 {
+		color: @player5color;
+	}
+	&.player6 {
+		color: @player6color;
+	}
+	&.player7 {
+		color: @player7color;
+	}
+	&.player8 {
+		color: @player8color;
+	}	
 }
 
 .playerbackground {
@@ -105,15 +144,17 @@
 
 @pickFormWidth: 353px;
 
+body {
+	overflow: hidden;
+}
+
 div.changeview {
-	position: absolute;
-	top: 63px;
-	left: 34px;
+
 }
 
 div.pickform {
 	margin-bottom: 50px;
-	margin-left: 8px;
+	margin-top: 5px;
 	width: @pickFormWidth;	
 	#pickCardForm {
 		margin-bottom: 0px;
@@ -159,6 +200,7 @@ div.pickorder
 div.historypicks 
 {
 	float: left;
+	margin-bottom: 15px;
 }
 
 div.futurepick {
@@ -174,12 +216,24 @@ div.futurepick {
 	}
 }
 
+div.draftinfo {
+	.roundanddrop(5px);
+	width: 200px;
+	margin: 10px;
+}
+
+
+
 div.pick {
 	.roundanddrop(5px);
 	width: 150px;
-	margin: 10px;
-	margin-right: 20px;
+	margin-bottom: 10px;
+	margin-right: 10px;
 	position: relative;
+
+	&.info {
+		.playerbackground;
+	}
 
 	&.futurepick {
 		width: 200px;
@@ -200,11 +254,10 @@ div.pick {
 	}
 
 	&.spreadsheet {
-		height: 35px;
-		margin: 10px;
+		height: 30px;
 	}
 
-	.playerbackground;
+	
 
 	&.gold { .colorone(@cardGold, @textGold); }
 	&.unknown { .colorone(@cardUnknown, @textUnknown); }
@@ -275,6 +328,10 @@ div.pick {
 	}
 	&.waiting {
 		opacity: 1;
+		cursor: pointer;
+
+		.playerbackground;
+
 		&.self {
 			background-color: #4DDB4D;
 			background-image: ;
@@ -311,10 +368,6 @@ div.pick {
 	}
 }
 
-div.container {
-	padding-top: 30px;
-}
-
 div.breadcrumb-container {
 	padding: 20px;
 	padding-bottom: 0px;
@@ -324,7 +377,7 @@ div.breadcrumb-container {
 #login-buttons {
 	float: left;
 	margin-right: 35px;
-	margin-left: 35px;
+	margin-left: 14px;
 }
 
 div.alert {
@@ -341,6 +394,161 @@ div.thumbnail {
 	}
 	&.finished {
 		
+	}
+}
+
+div.draftnavigation {
+	left: 0px;
+	width: @leftColumnSize;
+	top: 20px;
+	bottom: 0px;
+	position: absolute;
+	overflow-y: scroll;
+}
+div.scrollcontainer {
+	overflow: hidden;
+	overflow-y: scroll;
+	height: 100%;
+	padding-left: 8px;
+	padding-top: 15px;
+}
+div.outercontainer {
+	
+	margin-left: @leftColumnSize;
+	margin-right: @rightColumnSize;
+	overflow: hidden;
+
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	box-sizing: border-box;
+	position: absolute;
+
+	&.nochat {
+		margin-right: @rightColumnSmallSize;
+	}
+}
+
+div.chat {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	background-color: #eee;
+	border-left: 1px solid #333;
+	
+	.arrow {
+		font-size: 2em;
+		cursor: pointer;
+	}
+	
+	&.expanded {
+		
+		width: @rightColumnSize;
+
+		.expand.arrow {
+			display: none;
+		}
+		.users {
+			display: none;
+		}
+
+		.messages {
+			top: 25px;
+			bottom: @chatInputSize+10px;
+			left: 0px;
+			right: 0px;
+			margin-left: 4px;
+
+			overflow-y: scroll;
+			overflow-x: hidden;
+			position: absolute;
+
+			.message {
+				margin-bottom: 5px;
+				font-size: 0.9em;
+
+				.name {
+					display: block;
+					font-weight: bold;
+					font-size: 0.95em;
+
+					.playericon {
+						.playercolors;
+					}
+				}
+
+				.text {
+					.textstart {
+						font-size: 0.8em;
+						margin-right: 2px;
+						color: @lighterblack;
+					}
+					&.card {
+						color: @actionColor;
+						font-size: 0.85em;
+						margin-left: 7px;
+					}
+					.card {
+						font-weight: bold;
+					}
+				}
+
+				.date {
+					padding-left: 8px;
+					line-height: 5px;
+					margin-bottom: 5px;
+					display: block;
+					font-size: 0.8em;
+					color: @lighterblack;
+				}
+			}
+		}
+
+		.messageinput {
+			height: @chatInputSize;
+			margin-left: 10px;
+			position: absolute;
+			bottom: 0px;
+		}
+	}
+
+	&.collapsed {
+		
+		width: @rightColumnSmallSize;
+
+		overflow: hidden;
+		border-left: 1px solid #444;
+		border-bottom: 1px solid #444;
+
+		.messages {
+			display: none;
+		}
+
+		.messageinput {
+			display: none;
+		}
+
+		.closing.arrow {
+			display: none;
+		}
+
+		.expand.arrow {
+			text-align: center;
+			margin-bottom: 5px;
+		}
+		.users {
+			/*margin-left: 5px;*/
+			line-height: 10px;
+			font-size: 0.7em;
+			text-align: center;
+			.count {
+				color: #00e;
+				font-size: 1em;
+			}
+		}
 	}
 }
 

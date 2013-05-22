@@ -24,9 +24,16 @@ Template.index.helpers
       name: pageRouterNameTranslation curPage
       active: true
     return ret
+  noChat: ->
+  	if Session.get("chatOpen") then return "chatopen"
+  	"nochat"
 
 Template.draft.helpers
-	started: -> getCurrentDraft().started is true
+	started: -> 
+		curDraft = getCurrentDraft()
+		if !curDraft? then return false
+		if !curDraft.started? then return false
+		curDraft.started
 
 #Drafts.find({ "$or" : [{owner: "RQsrRsjmgmdKp8vN2"}, { public: true, started:true}, { "members.email" : "m.kjellberg@gmail.com", started:true }] }).fetch();
 Template.drafts.helpers
@@ -50,9 +57,12 @@ Template.drafts.helpers
 
 
 Template.startDraft.helpers
-	draftMembers: -> getCurrentDraft().members
+	draftMembers: -> 
+		curDraft = getCurrentDraft()
+		if !curDraft?.members? then return []
+		return curDraft.members
 	startable: ->
-		if getCurrentDraft().members.length > 1
+		if getCurrentDraft()?.members?.length > 1
 			return ""
 		else
 			return "disabled"
@@ -69,8 +79,10 @@ Template.drafts.events
 Template.startDraft.events
 	'click .inviteEmail' : ->
 		inviteEmail()
+		return false
 	'submit #invitePeopleForm' : ->
 		inviteEmail()
+		return false
 	'click .startdraft' : ->
 		Meteor.call "startDraft", Session.get('currentDraftId')
 	'click .label.email' : (event) ->

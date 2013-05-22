@@ -4,6 +4,9 @@ Meteor.publish 'drafts', ->
 Meteor.publish 'cards', ->
 	Cards.find({})
 
+Meteor.publish 'messages', (draftId) ->
+	Messages.find({ draftId: draftId }, { sort: { timestamp: -1 }, limit: 100 }, { draftId: 0 })
+
 Meteor.publish 'futurepicks', ->
 	FuturePicks.find({ userId: this.userId })
 
@@ -39,6 +42,23 @@ Meteor.publish 'futurepicks', ->
 		return false
 
 Meteor.methods
+	addChatMessage: (draftId, text) ->
+		userId = Meteor.userId()
+		email = getCurrentUserEmail()
+		draft = Drafts.findOne({ _id: draftId })
+		if !draft? then throw new Meteor.Error 404, "Draft not found"
+		if !userId? then throw new Meteor.Error 300, "Not logged in!"
+		playercount = 0
+		playerfound = false
+		for member in draft.members 
+			if member.email is email
+				playerfound = true
+				break
+			playercount++
+		if playerfound isnt true then throw new Meteor.Error 301, "You are not in this draft!"
+		playerclass = "player#{playercount}"
+		Messages.insert(new Message(draftId, email, text, "text", playerclass))
+		true
 	setImportant: (draftId, cardName, important) ->
 		fp = FuturePicks.findOne
       userId: Meteor.userId()
@@ -164,6 +184,8 @@ pickCard = (cardName, draftId, userId) ->
 			"$push": { "picks" : newPick }
 	else
 		newPick = new Pick(card, new Member(getMember(userId)), draftId, pickPosition)
+		playerEmail = getMember(userId)?.emails[0]?.address
+		Messages.insert(new Message(draftId, playerEmail, "#{cardName}", "pick", "player#{pickPosition}"))
 		Drafts.update { _id: draftId },
 			"$push": { "picks" : newPick }
 

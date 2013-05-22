@@ -17,24 +17,44 @@
 <template name="index">
   {{loginButtons}} 
 
-  {{#if breadcrumbs}}
-  <div class="breadcrumb-container">
-    <ul class="breadcrumb">
-      {{#each breadcrumbs}}
-        {{#if active}}
-          <li class="active">{{name}}</li>
-        {{else}}
-          <li><a href="{{link}}">{{name}}</a> <span class="divider">/</span></li>
-        {{/if}}
-      {{/each}}
+
+  <div class="clearfix"></div>
+  <div class="draftnavigation">
+    {{#if waitingforme}}
+      <ul class="nav nav-list">
+        <li class="nav-header">waiting for me</li>
+        {{#each waitingforme}}
+          <li class=""><a href="{{draftPath _id}}">{{name}}</a></li>
+        {{/each}}
+      </ul>
+    {{/if}}
+    {{#if notstarted}}
+      <ul class="nav nav-list">
+          <li class="nav-header">not started yet</li>
+          {{#each notstarted}}
+            <li class="{{isActive this}}"><a href="{{draftPath _id}}">{{name}}</a></li>
+          {{/each}}  
+      </ul>    
+    {{/if}}
+    {{#if mydrafts}}
+      <ul class="nav nav-list">
+          <li class="nav-header">My drafts</li>
+          {{#each mydrafts}}
+            <li class="{{isActive this}}"><a href="{{draftPath _id}}">{{name}}</a></li>
+          {{/each}}  
+      </ul>
+    {{/if}}
+    <ul class="nav nav-list">
+      <li class="nav-header">actions</li>
+      <li class=""><a href="{{createdraftPath}}">Create draft</a></li>
     </ul>
   </div>
-  {{/if}}
 
-  <div class="container">
-
+  <div id="middlecolumn" class="outercontainer {{noChat}}">
     
-    {{renderPage}}
+    <div class="scrollcontainer">
+      {{renderPage}}
+    </div>
 
     <hr>
 
@@ -43,6 +63,7 @@
     </footer>
 
   </div>
+  {{> chatWindow}}
 </template>
 
 <template name="information">
@@ -50,26 +71,6 @@
     <h1>Welcome!</h1>
     <p>Here you can create rotisserie drafts and draft with your friends, you can also view public drafts that other people have shared.</p>
     <p><a href="{{createdraftPath}}" class="btn btn-primary btn-large">Create my first draft &raquo;</a></p>
-  </div>
-
-  <!-- Example row of columns -->
-  <div class="row">
-    <div class="span4">
-      <h2>My drafts</h2>
-      <p>View the drafts you have created, and the drafts you are and have participated in.</p>
-      <p><a class="btn" href="{{draftsPath}}">View my drafts &raquo;</a></p>
-    </div>
-    <div class="span4">
-      <h2>Public drafts</h2>
-      <p>Watch draft that other people have created and made available for everyone to watch</p>
-      <p><a class="btn" href="#">View public drafts &raquo;</a></p>
-    </div>
-    <div class="span4">
-      <h2>Latest draft</h2>
-      {{#with latestDraft}}
-        <p>{{name}}</p>
-        <p><a class="btn" href="{{draftPath _id}}">View draft &raquo;</a></p>
-      {{/with}}
-    </div>  
+  </div> 
   </div>
 </template>

@@ -41,6 +41,53 @@ Template.draftInProgress.rendered = ->
         anchors: ["RightMiddle", "LeftMiddle"]
       ###
 
+Template.chatWindow.helpers
+  showChat: ->
+    draft = getCurrentDraft()
+    if draft?.started is false then return false
+    if Meteor.Router.page() is "draft" then return true
+    if Meteor.Router.page() is "spreadsheet" then return true
+    return false
+  chatExpand: ->
+    if Session.get("chatOpen") then return "expanded"
+    return "collapsed"
+  messages: ->
+    Messages.find({draftId: Session.get("currentDraftId")}, { sort: { timestamp: 1 }})
+  textMoment: (date) ->
+    moment(date).fromNow()
+  isText: ->
+    this.type is "text"
+
+scrollChatBottom = ->
+  if $("#chatmessages")[0]?
+    $("#chatmessages").scrollTop($("#chatmessages")[0].scrollHeight);
+
+Template.chatWindow.rendered = ->
+  Meteor.subscribe "messages", Session.get("currentDraftId")
+  scrollChatBottom()
+
+Template.chatWindow.events
+  'click .expand' : ->
+    Session.set("chatOpen", true)
+    ##$("#chatWindow").removeClass("collapsed");
+    ##$("#chatWindow").addClass("expanded");
+    ##$("#middlecolumn").toggleClass("nochat");
+    scrollChatBottom()
+  'click .closing.arrow' : ->
+    Session.set("chatOpen", false)
+    ##$("#chatWindow").removeClass("expanded");
+    ##$("#chatWindow").addClass("collapsed");
+    ##$("#middlecolumn").toggleClass("nochat");
+  'submit #chatInputForm' : ->
+    chatInputField = document.getElementById('addChatText')
+    Meteor.call "addChatMessage", Session.get("currentDraftId"), chatInputField.value, (error, result) ->
+      if error?.error
+        console.log "Error: #{error.error}"
+      true
+    chatInputField.value = ''
+    return false
+
+
 Template.draftPick.events
   'submit #pickCardForm' : ->
     pickCardField = document.getElementById('pickCard')
@@ -126,8 +173,10 @@ Template.draftInProgress.helpers
     getCurrentDraft()
   pickOrder: ->
     currentDraft = getCurrentDraft()
+    if !currentDraft?.picks? then return []
     for i in [0..currentDraft.members.length*4] by 1
-      pickPosition = getNextPickPosition(i + currentDraft.picks.length , currentDraft.members.length)
+      pickLength = currentDraft.picks?.length
+      pickPosition = getNextPickPosition(i + pickLength, currentDraft.members.length)
       pick = {}
       pick.id = currentDraft.members[pickPosition].id
       pick.email = currentDraft.members[pickPosition].email

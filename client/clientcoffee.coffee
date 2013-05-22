@@ -34,6 +34,17 @@ Meteor.Router.add
     and: (id) -> Session.set('currentDraftId', id)
 
 Meteor.methods
+  addChatMessage: (draftId, text) ->
+    userId = Meteor.userId()
+    email = getCurrentUserEmail()
+    draft = Drafts.findOne({ _id: draftId })
+    playercount = 0
+    for member in draft.members 
+      if member.email is email
+        break
+      playercount++
+    playerclass = "player#{playercount}"
+    Messages.insert(new Message(draftId, email, text, "text", playerclass))
   setImportant: (draftId, cardName, important) ->
     fp = FuturePicks.findOne
       userId: Meteor.userId()
